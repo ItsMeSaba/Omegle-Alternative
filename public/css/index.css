@@ -1,0 +1,121 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    /* font-family: 'Poppins', sans-serif; */
+}
+
+
+body {
+    width: 100vw;
+    overflow: hidden;
+    background-color: rgb(40, 40, 40);
+}
+
+/* div {
+    border: solid 1px red;
+} */
+
+.next {
+    position: absolute;
+    top: 0;
+    right: 1vw;
+    cursor: pointer;
+    max-width: 40px;
+    width: 10vw;
+}
+
+.container {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr; 
+    -ms-grid-rows: 11fr 1fr; 
+    grid-template-rows: 11fr 1fr;
+    height: 100vh;
+    /* height: -webkit-fill-available; */
+    width: 100vw;
+}
+
+.container > *:nth-child(1) {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+}
+
+.container > *:nth-child(2) {
+    -ms-grid-row: 2;
+    -ms-grid-column: 1;
+}
+
+
+.messages {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    color: white;
+    padding: 3vw;
+}
+
+.messages::-webkit-scrollbar {
+    width: 1vw;
+    background-color: rgb(40, 40, 40);
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background-color: rgb(60, 60, 60);
+}
+    
+
+.messages p {
+    word-break: break-all;
+    width: 90%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+            align-items: center;
+            padding: 0 10px;
+    margin: 10px 0;
+    border-left: solid 3px;
+    font-size: 1.2rem;
+    font-weight: 100;
+    min-height: 5vh;
+}
+
+.messages .mine {
+    border-left-color:rgba(6, 82, 221, 1.0);
+}
+
+.messages .guests {
+    border-left-color:rgba(234, 32, 39, 1.0);
+}
+
+.send {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 8fr 1fr;
+    grid-template-columns: 7fr 1fr;
+    width: 100%;
+    overflow: hidden;
+}
+
+.send input[type='submit'] {
+    cursor: pointer;
+}
+
+.send input[type='text'] {
+    padding: 0 1%;
+    outline: none;
+}

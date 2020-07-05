@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <input type="button" value="Next" class="next" id="next">
+
+    <div class="container">
+        <div class="messages">
+            <p>Searching...</p>
+        </div>
+        
+        
+        <form class="send" autocomplete="off">
+            <input type="text" id="input" disabled>
+
+            <input type="submit" id="send" disabled>     
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
