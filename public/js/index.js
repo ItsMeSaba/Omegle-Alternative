@@ -1,3 +1,11 @@
+document.getElementsByClassName('container')[0].style.height = window.innerHeight + 'px';
+
+// document.getElementsByClassName('container')[0].style.gridTemplateRows = `${window.innerHeight-50}px 50px`
+
+window.addEventListener('resize', () => {
+    document.getElementsByClassName('container')[0].style.height = window.innerHeight + 'px';
+
+})
 
 class Main {
     constructor() {
@@ -10,7 +18,7 @@ class Main {
         let msgs = document.getElementsByClassName('messages')[0];
         let toScroll = false;
 
-        if(msgs.scrollTop + msgs.clientHeight == msgs.scrollHeight) {
+        if(msgs.scrollTop + msgs.clientHeight >= msgs.scrollHeight) {
             toScroll = true;
         }
 
@@ -27,6 +35,7 @@ class Main {
 
     clearMessages() {
         let messages = document.getElementsByClassName('messages')[0];
+
         while(messages.firstChild) {
             messages.removeChild(messages.firstChild)
         }

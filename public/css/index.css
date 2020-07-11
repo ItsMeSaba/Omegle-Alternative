@@ -17,11 +17,15 @@
     /* font-family: 'Poppins', sans-serif; */
 }
 
+html {
+    overflow: hidden
+}
 
 body {
     width: 100vw;
     overflow: hidden;
     background-color: rgb(40, 40, 40);
+    /* position: fixed; */
 }
 
 /* div {
@@ -44,8 +48,6 @@ body {
     grid-template-columns: 1fr; 
     -ms-grid-rows: 11fr 1fr; 
     grid-template-rows: 11fr 1fr;
-    height: 100vh;
-    /* height: -webkit-fill-available; */
     width: 100vw;
 }
 
@@ -91,7 +93,8 @@ body {
     border-left: solid 3px;
     font-size: 1.2rem;
     font-weight: 100;
-    min-height: 5vh;
+    /* min-height: 5vh; */
+    min-height: 30px;
 }
 
 .messages .mine {
