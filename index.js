@@ -1,25 +1,22 @@
 let express = require('express');
 let app = express(); 
 
+
 let http = require('http').createServer(app);
 let io = require('socket.io')(http);
 
-let users = []; //Pending Users Id-s
-let paired = {};
+let users = []; // Pending Users Id-s
+let paired = {}; // Already Paired Users 
 
-setInterval(() => console.log(paired), 5000);
 
 let findPair = valueToFind => {
+          
+    if(paired.hasOwnProperty(valueToFind)) return valueToFind
+
     let entries = Object.entries(paired);
 
-    if(paired[valueToFind]) {
-        return valueToFind;
-    }
-
     for(let [key,value] of entries) {
-        if(value == valueToFind) {
-            return key;
-        }
+        if(value == valueToFind) return key;
     }
 
     return false;
@@ -27,26 +24,28 @@ let findPair = valueToFind => {
 
 
 io.on('connection', socket => {
-    console.log('connected', socket.id);  
     
     let pair = () => {
-        if(users.length > 0) {//If There is user waiting connects to eachother 
-            let user = users[0]; //gets pending users id
+        if(users.length > 0) { // Checks if anyone is waiting for pair
+            let user = users[0]; // gets first pending users id
             users.shift(); // deletes pending user from array
 
-            io.to(socket.id).emit('user joined', user); //sends id-s of conencted users
-            io.to(user).emit('user joined', socket.id); // to each other
+            // Exchanges User ID-s with eachother
+            io.to(socket.id).emit('user joined', user);
+            io.to(user).emit('user joined', socket.id); 
 
-            paired[socket.id] = user;
-            console.log(paired);
-        } else {//if there is no user w8ing he will be added to array for waiting
+
+            paired[socket.id] = user; // Adds Users to paird list
+
+            console.log(paired)
+        } else { //if there is no user to pait with current user gets added to waitinig list
             users.push(socket.id);
         }
     }
 
-    let removeUser = (key) => {
+    // Handling removal of user
+    let removeUser = key => {
         if(key) {
-            console.log('disconnected pair:', key, paired[key]);
 
             // io.to(key).emit('user left');
             // io.to(paired[key]).emit('user left');
@@ -60,19 +59,19 @@ io.on('connection', socket => {
         }
     }
 
-    pair();
+    pair(); // Try pairing newly joined user 
 
-    //sending message
+    // Sending message
     socket.on('send', data => { // on send this recieves id of destination(which was stored on client side variable) and message
         io.to(data.user).emit('send', data.msg); //send message to destination
     })
 
-
+    // Pairing user
     socket.on('find new', () => {
         pair();
-        console.log('find new', 'id:', socket.id);
     })
 
+    // User manual disconnect
     socket.on('user disconnected', data => {
         let key = findPair(data);
 
@@ -81,23 +80,14 @@ io.on('connection', socket => {
         io.to(data).emit('user left')
     })
 
-    //on disconnect
+    // Unexpected disconnect
     socket.on('disconnect', () => {
-
         let key = findPair(socket.id);
 
         removeUser(key);
-
-        console.log('disconnected', socket.id);
     })
 })
 
-
-app.use((req, res, next) => {
-    console.log('IP -->', req.ip);
-
-    next();
-});
 
 app.use(express.static(__dirname + '/public'));
 
