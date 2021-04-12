@@ -1,9 +1,5 @@
 document.documentElement.style.setProperty('--bodyHeight', `${window.innerHeight}px`);
 
-window.addEventListener('resize', () => {
-    // (<HTMLDivElement>document.getElementsByClassName('container')[0]).style.height = window.innerHeight + 'px';
-    document.documentElement.style.setProperty('--bodyHeight', `${window.innerHeight}px`);
-})
 
 declare let io: any;
 
@@ -18,10 +14,12 @@ class Main {
         this.searching = true; 
     }
 
-    messageAppender(data: string, cssClass: (string|null) = null) {
+
+    private messageAppender(data: string, cssClass: (string|null) = null) {
         let msgs = <HTMLDivElement> document.getElementsByClassName('messages')[0];
         let toScroll = false;
 
+        // Autoscroll when recieving message (only if user is scrolled to bottom)
         if(msgs.scrollTop + msgs.clientHeight >= msgs.scrollHeight) {
             toScroll = true;
         }
@@ -30,7 +28,6 @@ class Main {
         
         p.innerHTML = data;
         
-        // cssClass ? p.className = cssClass : null; 
         p.className = cssClass
         
         document.getElementsByClassName('messages')[0].appendChild(p);
@@ -38,7 +35,7 @@ class Main {
         if(toScroll) msgs.scrollTop = msgs.scrollHeight;
     }
 
-    clearMessages() {
+    private clearMessages() {
         let messages = document.getElementsByClassName('messages')[0];
 
         while(messages.firstChild) {
@@ -46,7 +43,7 @@ class Main {
         }
     }
 
-    send(msg: string) {
+    private send(msg: string) {
         if(msg.trim().length == 0) return false;
 
         this.socket.emit('send', {msg : msg, user : this.user})
@@ -99,7 +96,7 @@ class Main {
         // });
     }
 
-    disableInput(disabled = true) {
+    private disableInput(disabled = true) {
         (<HTMLInputElement>document.getElementById('send')).disabled = disabled;
         (<HTMLInputElement>document.getElementById('input')).disabled = disabled;
     }
